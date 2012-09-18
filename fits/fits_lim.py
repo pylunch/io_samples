@@ -1,5 +1,11 @@
-"""Simple example of FITS I/O."""
+"""
+Simple example of FITS I/O.
 
+For PyFITS 3.1 or later.
+
+http://packages.python.org/pyfits/appendix/header_transition.html
+
+"""
 import numpy
 import pyfits
 import pylab
@@ -40,20 +46,20 @@ def new_fits(outfile, **kwargs):
 
     # Modify headers
     
-    hdu_hdr.header.update('FILENAME', outfile)
-    hdu_hdr.header.update('NEXTEND', 3)
+    hdu_hdr.header['FILENAME'] = outfile
+    hdu_hdr.header['NEXTEND'] = 3
     
-    hdu_sci.header.update('BUNIT', 'COUNTS')
-    hdu_sci.header.update('EXTNAME','SCI')
-    hdu_sci.header.update('EXTVER', 1)
+    hdu_sci.header['BUNIT'] = 'COUNTS'
+    hdu_sci.header['EXTNAME'] = 'SCI'
+    hdu_sci.header['EXTVER'] = 1
 
-    hdu_err.header.update('BUNIT', 'COUNTS')
-    hdu_err.header.update('EXTNAME','ERR')
-    hdu_err.header.update('EXTVER', 1)
+    hdu_err.header['BUNIT'] = 'COUNTS'
+    hdu_err.header['EXTNAME'] = 'ERR'
+    hdu_err.header['EXTVER'] = 1
 
-    hdu_dq.header.update('BUNIT', 'UNITLESS')
-    hdu_dq.header.update('EXTNAME','DQ')
-    hdu_dq.header.update('EXTVER', 1)
+    hdu_dq.header['BUNIT'] = 'UNITLESS'
+    hdu_dq.header['EXTNAME'] = 'DQ'
+    hdu_dq.header['EXTVER'] = 1
 
     # Create multi-extension FITS
     hduList = pyfits.HDUList([hdu_hdr])
@@ -82,7 +88,7 @@ def view_fits(infile):
     for ext in range(4):
         # Look at all the headers
         print
-        print pf[ext].header.ascard
+        print repr(pf[ext].header)
         print
 
         if ext == 0:
@@ -119,10 +125,10 @@ def modify_fits(infile):
     with pyfits.open(infile,mode='update') as pf:
 
         # Add/update a keyword
-        pf['PRIMARY'].header.update('MY_KEYWD', 2.0)
+        pf['PRIMARY'].header['MY_KEYWD'] = 2.0
 
         # Add HISTORY
-        pf['PRIMARY'].header.add_history('Multiplied SCI by 2.')
+        pf['PRIMARY'].header['HISTORY'] = 'Multiplied SCI by 2.'
 
         # Modify SCI data
         pf['SCI',1].data *= 2.0
