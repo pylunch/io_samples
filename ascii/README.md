@@ -10,6 +10,7 @@ Files
 -----
 
 - txt_lim.py: Examples of very basic reading/writing to a text file.
+- readcol_ferguson.py: Routines for reading general whitespace-delimited, column-oriented files from Harry Ferguson's pygoods package.
 
 Examples on the Web
 -------------------
