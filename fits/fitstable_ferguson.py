@@ -20,16 +20,16 @@ class Ftable:
 	self.f = pyfits.open(filename)
 	self.h = self.f[ext].header
 	self.d = self.f[ext].data
-	if int(pyfits.__version__[0]) < 3:
-            self._column_names = self.d._names
-        else:
-            self._column_names = self.f[ext].columns.names
 	self._changed = False
         self.setcolumns()
 
     def setcolumns(self):
         self.Columns = []
-	for cname in self._column_names:
+        if self.d.__dict__.has_key('_names'):
+        	names = self.d._names
+        else:	
+        	names = self.d.names
+        for cname in names:
             colname=cname.lower()
             self.Columns += [colname]
             if hasattr(self,colname):
